@@ -8,8 +8,6 @@ WORKDIR /
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
-    libpcre3 \
-    libpcre3-dev \
     libssl-dev \
     libffi-dev \
     && rm -rf /var/lib/apt/lists/* \
