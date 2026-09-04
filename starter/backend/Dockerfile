@@ -1,3 +1,4 @@
+# Backend Docker image
 FROM python:3.10-slim
 
 ENV FLASK_RUN_HOST=0.0.0.0
