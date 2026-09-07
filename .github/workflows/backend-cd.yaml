@@ -74,7 +74,6 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -87,7 +86,7 @@ jobs:
       - name: Tag Docker image
         run: |
           docker tag backend:${{ github.sha }} \
-          ${{ vars.ECR_BACKEND }}:${{ github.sha }}
+            ${{ vars.ECR_BACKEND }}:${{ github.sha }}
 
       - name: Push Docker image to ECR
         run: |
@@ -96,13 +95,13 @@ jobs:
       - name: Update kubeconfig
         run: |
           aws eks update-kubeconfig \
-          --region ${{ vars.AWS_REGION }} \
-          --name ${{ vars.EKS_CLUSTER_NAME }}
+            --region ${{ vars.AWS_REGION }} \
+            --name ${{ vars.EKS_CLUSTER_NAME }}
 
       - name: Deploy Backend to EKS
         working-directory: starter/backend
         run: |
           kubectl apply -k k8s/
           kubectl set image deployment/backend \
-          backend=${{ vars.ECR_BACKEND }}:${{ github.sha }}
+            backend=${{ vars.ECR_BACKEND }}:${{ github.sha }}
           kubectl rollout status deployment/backend
